@@ -1,21 +1,21 @@
-name: CI - Production
+name: CI - Developer
 on:
   push:
     branches:
-      - main
+      - developer
   pull_request:
     branches:
-      - main
+      - developer
 env:
-  ENV: production
+  ENV: developer
   ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
   REPO_NAME: wasaa-web-service
-  NODE_ENV: production
+  NODE_ENV: developer
 jobs:
   build-test-analyze:
     runs-on: ubuntu-latest
     environment:
-      name: production
+      name: developer
     strategy:
       matrix:
         node-version: [18.x, 20.x]
@@ -63,7 +63,7 @@ jobs:
     needs: build-test-analyze
     runs-on: ubuntu-latest
     environment:
-      name: production
+      name: developer
     permissions:
       id-token: write
       contents: read

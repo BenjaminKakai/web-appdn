@@ -11,7 +11,7 @@ on:
 env:
   ENV: production
   ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-  REPO_NAME: wasaa-media-service # change this to the right repo name
+  REPO_NAME: wasaa-web-service # change this to the right repo name
   NODE_ENV: production
 
 jobs:
