@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useCallStore } from './callStore';
 
-const SOCKET_URL = 'wss://call-dev.wasaachat.com';
+const SOCKET_URL = 'https://calls-dev.wasaachat.com';
 
 interface CallInitiation {
   participantIds: string[];
@@ -72,12 +72,13 @@ class CallSocketService {
       // CRITICAL FIX: Enhanced socket configuration for stability
       this.socket = io(SOCKET_URL, {
         auth: { token: token.startsWith('Bearer ') ? token : `Bearer ${token}` },
-        transports: ['websocket'],
-        timeout: 30000,
+        transports: ["polling"],  // ✅ ONLY POLLING
+        upgrade: false,           // ✅ NO UPGRADE
+        timeout: 10000,           // ✅ TIMEOUT SETTING
         reconnection: true,
         reconnectionAttempts: this.maxReconnectAttempts,
         reconnectionDelay: 1000,
-        reconnectionDelayMax: 5000,
+        // reconnectionDelayMax: 5000, // Not needed for polling config
         forceNew: true,
         autoConnect: true,
       });

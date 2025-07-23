@@ -9,7 +9,7 @@ import { useAuthStore } from "@/store/authStore";
 // Configuration - Same as your server setup
 const SERVER_IP = 'dev-api-gateway.wasaachat.com';
 const API_BASE_URL = `https://${SERVER_IP}:9638/v1`;
-const SOCKET_URL = `wss://${SERVER_IP}:9638`;
+const SOCKET_URL = `https://${SERVER_IP}:9638`;
 
 interface Post {
   id: string;
@@ -119,10 +119,12 @@ const FeedsPage: React.FC = () => {
     try {
       const socket = io(SOCKET_URL, {
         auth: { token: accessToken },
-        transports: ['websocket'],
+        transports: ["polling"],  // ✅ ONLY POLLING
+        upgrade: false,           // ✅ NO UPGRADE
+        timeout: 10000,           // ✅ TIMEOUT SETTING
         reconnection: true,
         reconnectionAttempts: 5,
-        reconnectionDelay: 1000
+        reconnectionDelay: 1000,
       });
 
       socketRef.current = socket;

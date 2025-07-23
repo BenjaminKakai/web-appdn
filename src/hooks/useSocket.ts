@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-const SOCKET_URL = 'wss://calls-dev.wasaachat.com';
+const SOCKET_URL = 'https://calls-dev.wasaachat.com';
 
 interface UseSocketReturn {
   socket: Socket | null;
@@ -53,15 +53,13 @@ export const useSocket = (
     onLog('🔌 Connecting to socket with token...');
     
     const newSocket = io(SOCKET_URL, {
-      auth: { 
-        token: currentToken
-      },
-      transports: ['websocket', 'polling'],
-      timeout: 20000,
-      forceNew: true,
+      auth: { token: currentToken },
+      transports: ["polling"],  // ✅ ONLY POLLING
+      upgrade: false,           // ✅ NO UPGRADE
+      timeout: 10000,           // ✅ TIMEOUT SETTING
       reconnection: true,
       reconnectionAttempts: 5,
-      reconnectionDelay: 2000
+      reconnectionDelay: 1000,
     });
 
     // Connection event handlers
