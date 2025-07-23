@@ -1,4 +1,4 @@
-name: CI - Productions
+name: CI - Production
 
 on:
   push:
