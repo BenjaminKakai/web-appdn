@@ -46,8 +46,8 @@ interface Room {
   maxParticipants: number;
 }
 
-const API_BASE_URL = "https://calls-dev.wasaachat.com/v1";
-const SOCKET_URL = "wss://calls-dev.wasaachat.com";
+const API_BASE_URL = "https://calls-dev.wasaachat.com";
+socket = io('https://calls-dev.wasaachat.com', {  // ✅ HTTPS = HTTP polling
 const API_KEY =
   "QgR1v+o16jphR9AMSJ9Qf8SnOqmMd4HPziLZvMU1Mt0t7ocaT38q/8AsuOII2YxM60WaXQMkFIYv2bqo+pS/sw==";
 
@@ -117,14 +117,16 @@ const Call: React.FC = () => {
   useEffect(() => {
     if (isAuthenticated && user?.id && accessToken) {
       logDebug("Initializing socket...");
-      socketRef.current = io("https://calls-dev.wasaachat.com", {
-        auth: { token: accessToken },
-        transports: ["polling"],
-        upgrade: false,
-        reconnection: true,
-        reconnectionAttempts: 5,
-        reconnectionDelay: 1000,
-      });
+      // This is CORRECT (copy from your working HTML):
+socketRef.current = io("https://calls-dev.wasaachat.com", {
+  auth: { token: accessToken },
+  transports: ["polling"],  // ✅ ONLY POLLING
+  upgrade: false,           // ✅ NO UPGRADE
+  timeout: 10000,           // ✅ TIMEOUT SETTING
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
+});
 
       socketRef.current.on("connect", () => {
         logDebug(`Socket connected: ${socketRef.current?.id}`);

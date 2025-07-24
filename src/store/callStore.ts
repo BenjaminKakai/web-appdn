@@ -81,7 +81,7 @@ interface CallState {
   setRemoteStream: (stream: MediaStream | null) => void;
 }
 
-const API_BASE_URL = "https://calls-dev.wasaachat.com/v1";
+const API_BASE_URL = "https://calls-dev.wasaachat.com";
 const API_KEY = "QgR1v+o16jphR9AMSJ9Qf8SnOqmMd4HPziLZvMU1Mt0t7ocaT38q/8AsuOII2YxM60WaXQMkFIYv2bqo+pS/sw==";
 
 export const useCallStore = create<CallState>()(
@@ -378,7 +378,7 @@ export const useCallStore = create<CallState>()(
           if (!accessToken || !user?.id) {
             throw new Error('No authentication data available');
           }
-          const response = await fetch(`${API_BASE_URL}/calls/history/${user.id}`, {
+          const response = await fetch(`${API_BASE_URL}/v1/calls/user/${user.id}`, {
             headers: {
               'Authorization': `Bearer ${accessToken}`,
               'x-api-key': API_KEY,
